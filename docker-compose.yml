@@ -17,6 +17,8 @@ services:
     entrypoint: /app/src/entrypoint.sh
     depends_on:
       - db
+    volumes:
+      - .:/app
     environment:
       - DEBUG=1
       - SECRET_KEY=CorrectHorseBatteryStaple
