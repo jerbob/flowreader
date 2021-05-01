@@ -15,6 +15,12 @@ services:
     depends_on:
       - db
     environment:
+      - DEBUG=1
+
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@jerbob.me
+
       - SECRET_KEY=CorrectHorseBatteryStaple
       - DATABASE_URL=postgres://flowreader:flowreader@db:5432/flowreader
     ports:

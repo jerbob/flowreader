@@ -15,5 +15,6 @@ echo "Done."
 
 python src/manage.py migrate --no-input
 python src/manage.py collectstatic --no-input
+python src/manage.py createsuperuser --no-input
 
 exec "$@"
