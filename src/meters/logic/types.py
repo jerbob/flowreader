@@ -94,7 +94,7 @@ class RegisterReadingsGroup(FlowGroup):
 
     group_number: ClassVar[int] = 30
 
-    meter_register: constr(min_length=2, max_length=2)
+    meter_register: str
     reading_datetime: datetime
     register_reading: Decimal
 
