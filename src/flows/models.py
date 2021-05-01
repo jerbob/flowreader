@@ -1,3 +1,5 @@
+"""Database models used in the 'flows' app."""
+
 from django.db import models
 
 
