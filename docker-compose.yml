@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:13.2
+    environment:
+      - POSTGRES_DB=flowreader
+      - POSTGRES_USER=flowreader
+      - POSTGRES_PASSWORD=flowreader
+
+  api:
+    build: flowreader
+    command: python src/manage.py runserver
+    depends_on:
+      - db
+    environment:
+      - SECRET_KEY=CorrectHorseBatteryStaple
+      - DATABASE_URL=postgres://flowreader:flowreader@db:5432/flowreader
+    ports:
+      - "8000:8000"
