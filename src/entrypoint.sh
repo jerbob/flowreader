@@ -17,4 +17,7 @@ python src/manage.py migrate --no-input
 python src/manage.py collectstatic --no-input
 python src/manage.py createsuperuser --no-input
 
+# Import some test data for this development entrypoint
+python src/manage.py import_flow_file files/DTC5259515123502080915D0010.uff
+
 exec "$@"
