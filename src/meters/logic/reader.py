@@ -30,14 +30,20 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
 
     csv_rows = filtered_csv_rows(csv.reader(file, delimiter="|"))
 
-    types.FileHeader(*next(csv_rows))  # Validate file header
+    try:
+        types.FileHeader(*next(csv_rows))  # Validate file header
+    except ValidationError as exception:
+        raise CommandError(f"Invalid flow file header was provided: {exception}")
 
     for row in csv_rows:
         group_number, *fields = row
         if group_number == types.TRAILER_GROUP:
-            types.FileTrailer(group_number, *fields)  # Validate file trailer
-            break
-
+            try:
+                types.FileTrailer(group_number, *fields)  # Validate file trailer
+            except ValidationError as exception:
+                raise CommandError(
+                    f"Invalid flow file trailer was provided: {exception}"
+                )
         try:
             flow_group = types.FlowGroup.from_fields(group_number, *fields)
             reading_count += 1
