@@ -8,8 +8,8 @@ services:
       - POSTGRES_USER=flowreader
       - POSTGRES_PASSWORD=flowreader
 
-  api:
-    build: flowreader
+  web:
+    build: .
     command: python src/manage.py runserver
     depends_on:
       - db
