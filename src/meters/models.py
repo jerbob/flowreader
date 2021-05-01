@@ -14,8 +14,8 @@ class MeterReading(models.Model):
     meter_serial_number = models.TextField(
         help_text="Serial number of the meter this reading was taken from."
     )
-    meter_register = models.IntegerField(
-        help_text="The meter register used to take this reading."
+    meter_register = models.CharField(
+        help_text="The meter register used to take this reading.", max_length=2
     )
     reading = models.DecimalField(
         decimal_places=1,
