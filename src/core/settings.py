@@ -20,6 +20,7 @@ SECRET_KEY = env(
 )
 
 CACHE_URL = env("REDIS_URL", cast=str, default="dummy://")
+STATIC_ROOT = env("STATIC_ROOT", cast=str, default="static")
 DATABASE_URL = env("DATABASE_URL", cast=str, default="sqlite:////tmp/sqlite.db")
 
 CACHES = {"default": django_cache_url.parse(CACHE_URL)}
