@@ -20,7 +20,7 @@ SECRET_KEY = env(
 )
 
 CACHE_URL = env("REDIS_URL", cast=str, default="dummy://")
-DATABASE_URL = env("DATABASE_URL", cast=str, default="sqlite://:memory:")
+DATABASE_URL = env("DATABASE_URL", cast=str, default="sqlite:////tmp/sqlite.db")
 
 CACHES = {"default": django_cache_url.parse(CACHE_URL)}
 DATABASES = {"default": dj_database_url.config(default=DATABASE_URL)}
