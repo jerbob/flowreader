@@ -5,7 +5,7 @@ from pathlib import Path
 from io import TextIOWrapper
 from typing import Generator, Iterable, List, Optional
 
-from meters.models import MeterReading
+from meters.forms import MeterReadingForm
 from meters.logic.types import (
     TRAILER_GROUP,
     FlowGroup,
@@ -27,7 +27,7 @@ def filtered_csv_rows(
         yield [field or None for field in row[:-1]]
 
 
-def import_readings_from_file(file: TextIOWrapper) -> int:
+def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
     """Import readings from a file."""
     reading_count: int = 0
     csv_rows = filtered_csv_rows(csv.reader(file, delimiter="|"))
@@ -53,7 +53,11 @@ def import_readings_from_file(file: TextIOWrapper) -> int:
         elif type(flow_group) is RegisterReadingsGroup:
             form_fields["reading"] = flow_group.register_reading
             form_fields["reading_datetime"] = flow_group.reading_datetime
-            print(form_fields)
+
+            form = MeterReadingForm(form_fields)
+            if form.is_valid():
+                form.save()
+
             reading_count += 1
             form_fields.clear()
 
