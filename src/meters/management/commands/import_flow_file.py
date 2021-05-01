@@ -3,6 +3,8 @@
 from pathlib import Path
 from django.core.management.base import BaseCommand, CommandError
 
+from pydantic import ValidationError
+
 from meters.logic.reader import import_readings_from_file
 
 
@@ -23,10 +25,16 @@ class Command(BaseCommand):
         for file_path in options.get("files", ()):
             path = Path(file_path).resolve()
             if path.exists():
-                file_count += 1
                 with path.open() as file:
-                    count = import_readings_from_file(file, path.name)
-                    reading_count += count
+                    try:
+                        count = import_readings_from_file(file, path.name)
+                    except ValidationError as exception:
+                        raise CommandError(
+                            f"Invalid flow file entry was provided: {exception}"
+                        )
+                    else:
+                        file_count += 1
+                        reading_count += count
             else:
                 raise CommandError(f"File {path} does not exist.")
 

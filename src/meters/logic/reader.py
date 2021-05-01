@@ -7,8 +7,6 @@ from typing import Generator, Iterable, List, Optional
 
 from django.core.management.base import CommandError
 
-from pydantic import ValidationError
-
 from meters.forms import MeterReadingForm
 from meters.logic import types
 
@@ -38,21 +36,11 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
     for row in csv_rows:
         group_number, *fields = row
         if group_number == types.TRAILER_GROUP:
-            try:
-                types.FileTrailer(group_number, *fields)  # Validate file trailer
-            except ValidationError as exception:
-                raise CommandError(
-                    f"Invalid flow file trailer was provided: {exception}"
-                )
-            else:
-                break
-        try:
-            flow_group = types.FlowGroup.from_fields(group_number, *fields)
-            reading_count += 1
-        except ValidationError as exception:
-            raise CommandError(f"Invalid flow file entry was provided: {exception}")
-        else:
-            form_fields.update(flow_group.get_form_fields())
+            types.FileTrailer(group_number, *fields)  # Validate file trailer
+
+        flow_group = types.FlowGroup.from_fields(group_number, *fields)
+        reading_count += 1
+        form_fields.update(flow_group.get_form_fields())
 
         if type(flow_group) is types.RegisterReadingsGroup:
             form = MeterReadingForm(form_fields)
