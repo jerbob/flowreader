@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "flowreader"
+version = "0.1.0"
+description = ""
+authors = ["Jeremiah Boby <mail@jeremiahboby.me>"]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Django = "^3.2"
+django-environ = "^0.4.5"
+django-redis = "^4.12.1"
+dj-database-url = "^0.5.0"
+django-cache-url = "^3.2.3"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+black = "^21.4b2"
+isort = "^5.8.0"
+flake8 = "^3.9.1"
+mypy = "^0.812"
+django-stubs = "^1.8.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
