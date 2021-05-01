@@ -30,6 +30,7 @@ DATABASES = {"default": dj_database_url.config(default=DATABASE_URL)}
 ALLOWED_HOSTS = [PRIMARY_HOST, "0.0.0.0"]
 
 INSTALLED_APPS = [
+    "flows",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
