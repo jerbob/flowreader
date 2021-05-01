@@ -25,7 +25,7 @@ class Command(BaseCommand):
             if path.exists():
                 file_count += 1
                 with path.open() as file:
-                    count = import_readings_from_file(file)
+                    count = import_readings_from_file(file, path.name)
                     reading_count += count
             else:
                 raise CommandError(f"File {path} does not exist.")
