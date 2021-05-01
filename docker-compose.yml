@@ -1,6 +1,9 @@
 version: '3'
 
 services:
+  cache:
+    image: redis
+
   db:
     image: postgres:13.2
     environment:
@@ -16,12 +19,13 @@ services:
       - db
     environment:
       - DEBUG=1
+      - SECRET_KEY=CorrectHorseBatteryStaple
 
       - DJANGO_SUPERUSER_USERNAME=admin
       - DJANGO_SUPERUSER_PASSWORD=admin
       - DJANGO_SUPERUSER_EMAIL=admin@jerbob.me
 
-      - SECRET_KEY=CorrectHorseBatteryStaple
+      - CACHE_URL=redis://cache:6379
       - DATABASE_URL=postgres://flowreader:flowreader@db:5432/flowreader
     ports:
       - "8000:8000"
