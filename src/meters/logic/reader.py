@@ -44,6 +44,8 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
                 raise CommandError(
                     f"Invalid flow file trailer was provided: {exception}"
                 )
+            else:
+                break
         try:
             flow_group = types.FlowGroup.from_fields(group_number, *fields)
             reading_count += 1
