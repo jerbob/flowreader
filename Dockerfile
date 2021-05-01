@@ -14,6 +14,4 @@ RUN set -ex \
 
 COPY src /app/src
 
-ENTRYPOINT [ "/app/src/entrypoint.sh" ]
-
 CMD [ "gunicorn", "-w", "12", "-b", "0.0.0.0:80", "--chdir", "src", "core.wsgi:application" ]

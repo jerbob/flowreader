@@ -10,7 +10,8 @@ services:
 
   web:
     build: .
-    command: python src/manage.py runserver
+    command: python /app/src/manage.py runserver
+    entrypoint: /app/src/entrypoint.sh
     depends_on:
       - db
     environment:
