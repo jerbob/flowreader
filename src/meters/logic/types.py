@@ -3,14 +3,14 @@
 from datetime import datetime
 from decimal import Decimal
 
-from typing import ClassVar, Final, Literal, Optional, Union
+from typing import ClassVar, Literal, Optional, Union
 
 from pydantic import validator
 from pydantic.types import conint, constr
 from pydantic.dataclasses import dataclass
 
 
-TRAILER_GROUP: Final[str] = "ZPT"
+TRAILER_GROUP = "ZPT"
 
 
 @dataclass
@@ -53,7 +53,9 @@ class FlowGroup:
             if flow_group.group_number == number:
                 return flow_group(*fields)
 
-        raise NotImplementedError("The FlowGroup for this group ID has not been implemented.")
+        raise NotImplementedError(
+            "The FlowGroup for this group ID has not been implemented."
+        )
 
 
 @dataclass
