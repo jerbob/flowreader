@@ -3,14 +3,16 @@
 from datetime import datetime
 from decimal import Decimal
 
-from typing import ClassVar, Literal, Optional, Union
+from typing import ClassVar, Optional, Union
 
 from pydantic import validator
 from pydantic.types import conint, constr
 from pydantic.dataclasses import dataclass
 
+from typing_extensions import Final, Literal
 
-TRAILER_GROUP = "ZPT"
+
+TRAILER_GROUP: Final[str] = "ZPT"
 
 
 @dataclass
