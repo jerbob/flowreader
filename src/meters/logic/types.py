@@ -1,11 +1,16 @@
 """Type definitions and constraints for flow readings."""
 
+from datetime import datetime
 from decimal import Decimal
 
-from typing import ClassVar, Literal, Optional, Union
+from typing import ClassVar, Final, Literal, Optional, Union
 
+from pydantic import validator
 from pydantic.types import conint, constr
 from pydantic.dataclasses import dataclass
+
+
+TRAILER_GROUP: Final[str] = "ZPT"
 
 
 @dataclass
@@ -48,9 +53,7 @@ class FlowGroup:
             if flow_group.group_number == number:
                 return flow_group(*fields)
 
-        raise NotImplementedError(
-            "The FlowGroup for this group ID has not been implemented."
-        )
+        raise NotImplementedError("The FlowGroup for this group ID has not been implemented.")
 
 
 @dataclass
@@ -59,7 +62,7 @@ class MPANCoreGroup(FlowGroup):
 
     group_number: ClassVar[int] = 26
 
-    mpan_core_id: constr(min_length=13, max_length=13)
+    mpan_core_id: constr(min_length=1, max_length=13)
     bsc_validation_status: constr(min_length=1, max_length=1)
 
 
@@ -69,7 +72,7 @@ class MeterReadingGroup(FlowGroup):
 
     group_number: ClassVar[int] = 28
 
-    mpan_core_id: constr(min_length=13, max_length=13)
+    mpan_core_id: constr(min_length=1, max_length=13)
     bsc_validation_status: constr(min_length=1, max_length=1)
 
 
@@ -80,7 +83,7 @@ class RegisterReadingsGroup(FlowGroup):
     group_number: ClassVar[int] = 30
 
     meter_register: str
-    reading_datetime: str
+    reading_datetime: datetime
     register_reading: Decimal
 
     md_reset_time: Optional[str]
@@ -88,6 +91,11 @@ class RegisterReadingsGroup(FlowGroup):
     meter_reading_flag: Optional[str]
 
     reading_method: constr(min_length=1, max_length=1)
+
+    @validator("reading_datetime", pre=True)
+    def parse_datetime(cls, value: str) -> datetime:
+        """Parse the datetime format for D0010 files."""
+        return datetime.strptime(value, "%Y%m%d%H%M%S")
 
 
 @dataclass
