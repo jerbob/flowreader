@@ -1,4 +1,4 @@
-"""Database models used in the 'flows' app."""
+"""Database models used in the 'meters' app."""
 
 from django.db import models
 
