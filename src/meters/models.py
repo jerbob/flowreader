@@ -14,8 +14,19 @@ class MeterReading(models.Model):
     meter_serial_number = models.TextField(
         help_text="Serial number of the meter this reading was taken from."
     )
-    reading = models.DecimalField(decimal_places=1, max_digits=255)
-    reading_datetime = models.DateTimeField()
+    meter_register = models.IntegerField(
+        help_text="The meter register used to take this reading."
+    )
+    reading = models.DecimalField(
+        decimal_places=1,
+        max_digits=255,
+        help_text="Decimal value for this meter reading.",
+    )
+    reading_datetime = models.DateTimeField(help_text="Time this reading was taken at.")
     flow_file = models.CharField(
         max_length=255, help_text="Flow file this reading was taken from."
     )
+
+    def __str__(self) -> str:
+        """Get a string representation of this reading for the admin site."""
+        return f"Reading {self.pk}: Meter {self.meter_serial_number}"

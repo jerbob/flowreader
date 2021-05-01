@@ -32,8 +32,8 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
     reading_count: int = 0
     csv_rows = filtered_csv_rows(csv.reader(file, delimiter="|"))
 
-    form_fields = {}
     header = FileHeader(*next(csv_rows))
+    form_fields = {"flow_file": filename}
 
     for row in csv_rows:
         group_number, *fields = row
@@ -43,22 +43,15 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
             break
 
         flow_group = FlowGroup.from_fields(group_number, *fields)
+        form_fields.update(flow_group.get_form_fields())
 
-        if type(flow_group) is MPANCoreGroup:
-            form_fields["mpan_number"] = flow_group.mpan_core_id
-
-        elif type(flow_group) is MeterReadingGroup:
-            form_fields["meter_serial_number"] = flow_group.mpan_core_id
-
-        elif type(flow_group) is RegisterReadingsGroup:
-            form_fields["reading"] = flow_group.register_reading
-            form_fields["reading_datetime"] = flow_group.reading_datetime
-
+        if type(flow_group) is RegisterReadingsGroup:
             form = MeterReadingForm(form_fields)
             if form.is_valid():
                 form.save()
+            else:
+                print(form.errors)
 
             reading_count += 1
-            form_fields.clear()
 
     return reading_count

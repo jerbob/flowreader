@@ -13,6 +13,7 @@ class MeterReadingForm(ModelForm):
         fields = [
             "mpan_number",
             "meter_serial_number",
+            "meter_register",
             "reading",
             "reading_datetime",
             "flow_file",

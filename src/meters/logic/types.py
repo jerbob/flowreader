@@ -3,7 +3,7 @@
 from datetime import datetime
 from decimal import Decimal
 
-from typing import ClassVar, Optional, Union
+from typing import Any, ClassVar, Dict, Optional, Union
 
 from pydantic import validator
 from pydantic.types import conint, constr
@@ -69,6 +69,10 @@ class MPANCoreGroup(FlowGroup):
     mpan_core_id: constr(min_length=1, max_length=13)
     bsc_validation_status: constr(min_length=1, max_length=1)
 
+    def get_form_fields(self) -> Dict[str, Any]:
+        """Get fields to add to the relevant ModelForm's data."""
+        return {"mpan_number": self.mpan_core_id}
+
 
 @dataclass
 class MeterReadingGroup(FlowGroup):
@@ -78,6 +82,10 @@ class MeterReadingGroup(FlowGroup):
 
     mpan_core_id: constr(min_length=1, max_length=13)
     bsc_validation_status: constr(min_length=1, max_length=1)
+
+    def get_form_fields(self) -> Dict[str, Any]:
+        """Get fields to add to the relevant ModelForm's data."""
+        return {"meter_serial_number": self.mpan_core_id}
 
 
 @dataclass
@@ -100,6 +108,14 @@ class RegisterReadingsGroup(FlowGroup):
     def parse_datetime(cls, value: str) -> datetime:
         """Parse the datetime format for D0010 files."""
         return datetime.strptime(value, "%Y%m%d%H%M%S")
+
+    def get_form_fields(self) -> Dict[str, Any]:
+        """Get fields to add to the relevant ModelForm's data."""
+        return {
+            "reading": self.register_reading,
+            "reading_datetime": self.reading_datetime,
+            "meter_register": self.meter_register,
+        }
 
 
 @dataclass
