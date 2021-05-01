@@ -5,16 +5,12 @@ from pathlib import Path
 from io import TextIOWrapper
 from typing import Generator, Iterable, List, Optional
 
+from django.core.management.base import CommandError
+
+from pydantic import ValidationError
+
 from meters.forms import MeterReadingForm
-from meters.logic.types import (
-    TRAILER_GROUP,
-    FlowGroup,
-    FileHeader,
-    FileTrailer,
-    MPANCoreGroup,
-    MeterReadingGroup,
-    RegisterReadingsGroup,
-)
+from meters.logic import types
 
 
 def filtered_csv_rows(
@@ -30,26 +26,29 @@ def filtered_csv_rows(
 def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
     """Import readings from a file."""
     reading_count: int = 0
+    form_fields = {"flow_file": filename}
+
     csv_rows = filtered_csv_rows(csv.reader(file, delimiter="|"))
 
-    header = FileHeader(*next(csv_rows))
-    form_fields = {"flow_file": filename}
+    types.FileHeader(*next(csv_rows))  # Validate file header
 
     for row in csv_rows:
         group_number, *fields = row
-
-        if group_number == TRAILER_GROUP:
-            trailer = FileTrailer(group_number, *fields)
+        if group_number == types.TRAILER_GROUP:
+            types.FileTrailer(group_number, *fields)  # Validate file trailer
             break
 
-        flow_group = FlowGroup.from_fields(group_number, *fields)
-        form_fields.update(flow_group.get_form_fields())
+        try:
+            flow_group = types.FlowGroup.from_fields(group_number, *fields)
+            reading_count += 1
+        except ValidationError as exception:
+            raise CommandError(f"Invalid flow file entry was provided: {exception}")
+        else:
+            form_fields.update(flow_group.get_form_fields())
 
-        if type(flow_group) is RegisterReadingsGroup:
+        if type(flow_group) is types.RegisterReadingsGroup:
             form = MeterReadingForm(form_fields)
             if form.is_valid():
                 form.save()
-
-            reading_count += 1
 
     return reading_count
