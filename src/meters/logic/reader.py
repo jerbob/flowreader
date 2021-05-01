@@ -49,8 +49,6 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
             form = MeterReadingForm(form_fields)
             if form.is_valid():
                 form.save()
-            else:
-                print(form.errors)
 
             reading_count += 1
 
