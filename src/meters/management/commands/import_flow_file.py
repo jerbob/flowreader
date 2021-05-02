@@ -24,18 +24,18 @@ class Command(BaseCommand):
 
         for file_path in options.get("files", ()):
             path = Path(file_path).resolve()
-            if path.exists():
-                with path.open() as file:
-                    try:
-                        count = import_readings_from_file(file)
-                    except ValidationError as exception:
-                        raise CommandError(
-                            f"Invalid flow file entry was provided: {exception}"
-                        )
-                    else:
-                        file_count += 1
-                        reading_count += count
-            else:
+            if not path.exists():
                 raise CommandError(f"File {path} does not exist.")
+
+            with path.open() as file:
+                try:
+                    count = import_readings_from_file(file)
+                except ValidationError as exception:
+                    raise CommandError(
+                        f"Invalid flow file entry was provided: {exception}"
+                    )
+                else:
+                    file_count += 1
+                    reading_count += count
 
         self.stdout.write(f"Imported {reading_count} readings from {file_count} files.")
