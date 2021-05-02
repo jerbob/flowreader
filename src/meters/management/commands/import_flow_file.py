@@ -27,7 +27,7 @@ class Command(BaseCommand):
             if path.exists():
                 with path.open() as file:
                     try:
-                        count = import_readings_from_file(file, path.name)
+                        count = import_readings_from_file(file)
                     except ValidationError as exception:
                         raise CommandError(
                             f"Invalid flow file entry was provided: {exception}"

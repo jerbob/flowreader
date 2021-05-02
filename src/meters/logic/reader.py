@@ -18,10 +18,10 @@ def filtered_csv_rows(
         yield [field or None for field in row[:-1]]
 
 
-def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
+def import_readings_from_file(file: TextIOWrapper) -> int:
     """Import readings from a file."""
     reading_count: int = 0
-    form_fields = {"flow_file": filename}
+    form_fields = {"flow_file": file.name.rpartition("/")[2]}
 
     csv_rows = filtered_csv_rows(csv.reader(file, delimiter="|"))
     types.FileHeader(*next(csv_rows))  # Validate file header
