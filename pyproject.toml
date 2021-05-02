@@ -30,6 +30,9 @@ pytest-django = "^4.2.0"
 DJANGO_SETTINGS_MODULE = "core.settings"
 python_files = "tests.py test_*.py *_tests.py"
 
+[tool.coverage.run]
+omit = ["*/wsgi.py", "*/manage.py"]
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
