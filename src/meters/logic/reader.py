@@ -1,11 +1,8 @@
 """Logic related to parsing and creating models from flow files."""
 
 import csv
-from pathlib import Path
 from io import TextIOWrapper
 from typing import Generator, Iterable, List, Optional
-
-from django.core.management.base import CommandError
 
 from meters.forms import MeterReadingForm
 from meters.logic import types
@@ -27,16 +24,13 @@ def import_readings_from_file(file: TextIOWrapper, filename: str) -> int:
     form_fields = {"flow_file": filename}
 
     csv_rows = filtered_csv_rows(csv.reader(file, delimiter="|"))
-
-    try:
-        types.FileHeader(*next(csv_rows))  # Validate file header
-    except ValidationError as exception:
-        raise CommandError(f"Invalid flow file header was provided: {exception}")
+    types.FileHeader(*next(csv_rows))  # Validate file header
 
     for row in csv_rows:
         group_number, *fields = row
         if group_number == types.TRAILER_GROUP:
             types.FileTrailer(group_number, *fields)  # Validate file trailer
+            break
 
         flow_group = types.FlowGroup.from_fields(group_number, *fields)
         reading_count += 1
