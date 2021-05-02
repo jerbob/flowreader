@@ -1,6 +1,7 @@
 """Test properties and methods on models in the 'meters' app."""
 
 from decimal import Decimal
+
 from django.test import TestCase
 from django.utils import timezone
 

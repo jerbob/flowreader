@@ -2,8 +2,8 @@
 
 from pathlib import Path
 
-import django_cache_url
 import dj_database_url
+import django_cache_url
 import environ
 
 BASE_DIR = Path(__file__).resolve().parent.parent

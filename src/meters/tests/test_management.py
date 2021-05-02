@@ -3,12 +3,10 @@
 from io import StringIO
 from typing import Tuple
 
-from django.conf import settings
-from django.core.management import call_command, CommandError
-from django.test import TestCase
-
 import pytest
-
+from django.conf import settings
+from django.core.management import CommandError, call_command
+from django.test import TestCase
 
 FILES_DIR = settings.BASE_DIR.parent / "files"
 

@@ -1,8 +1,7 @@
 """Test custom logic attached to pydantic models or dataclasses."""
 
-from django.test import TestCase
-
 import pytest
+from django.test import TestCase
 
 from meters.logic import types
 

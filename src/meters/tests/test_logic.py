@@ -5,7 +5,6 @@ from django.test import TestCase
 
 from meters.logic import reader
 
-
 FILES_DIR = settings.BASE_DIR.parent / "files"
 
 

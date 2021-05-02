@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meters', '0005_meterreading_meter_register'),
+        ("meters", "0005_meterreading_meter_register"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='meterreading',
-            name='meter_register',
-            field=models.CharField(help_text='The meter register used to take this reading.', max_length=2),
+            model_name="meterreading",
+            name="meter_register",
+            field=models.CharField(
+                help_text="The meter register used to take this reading.", max_length=2
+            ),
         ),
     ]

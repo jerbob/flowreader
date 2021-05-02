@@ -7,17 +7,40 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='MeterReading',
+            name="MeterReading",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('mpan', models.CharField(max_length=21, verbose_name='Meter Point Administration Number.')),
-                ('flow_file', models.CharField(max_length=255, verbose_name='Flow file this reading was taken from.')),
-                ('meter_serial_number', models.TextField(verbose_name='Serial number of the meter this reading was taken from.')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "mpan",
+                    models.CharField(
+                        max_length=21, verbose_name="Meter Point Administration Number."
+                    ),
+                ),
+                (
+                    "flow_file",
+                    models.CharField(
+                        max_length=255,
+                        verbose_name="Flow file this reading was taken from.",
+                    ),
+                ),
+                (
+                    "meter_serial_number",
+                    models.TextField(
+                        verbose_name="Serial number of the meter this reading was taken from."
+                    ),
+                ),
             ],
         ),
     ]

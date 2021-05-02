@@ -6,14 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meters', '0004_add_reading_field_help_text'),
+        ("meters", "0004_add_reading_field_help_text"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='meterreading',
-            name='meter_register',
-            field=models.IntegerField(default=1, help_text='The meter register used to take this reading.'),
+            model_name="meterreading",
+            name="meter_register",
+            field=models.IntegerField(
+                default=1, help_text="The meter register used to take this reading."
+            ),
             preserve_default=False,
         ),
     ]

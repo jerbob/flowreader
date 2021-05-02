@@ -6,24 +6,24 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meters', '0002_verbose_name_to_help_text_field'),
+        ("meters", "0002_verbose_name_to_help_text_field"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='meterreading',
-            old_name='mpan',
-            new_name='mpan_number',
+            model_name="meterreading",
+            old_name="mpan",
+            new_name="mpan_number",
         ),
         migrations.AddField(
-            model_name='meterreading',
-            name='reading',
+            model_name="meterreading",
+            name="reading",
             field=models.DecimalField(decimal_places=1, default=0, max_digits=255),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='meterreading',
-            name='reading_datetime',
+            model_name="meterreading",
+            name="reading_datetime",
             field=models.DateTimeField(default=None),
             preserve_default=False,
         ),

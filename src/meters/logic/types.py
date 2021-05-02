@@ -2,15 +2,12 @@
 
 from datetime import datetime
 from decimal import Decimal
-
 from typing import Any, ClassVar, Dict, Optional, Union
 
 from pydantic import validator
-from pydantic.types import conint, constr
 from pydantic.dataclasses import dataclass
-
+from pydantic.types import conint, constr
 from typing_extensions import Final, Literal
-
 
 TRAILER_GROUP: Final[str] = "ZPT"
 

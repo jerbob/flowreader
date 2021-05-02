@@ -6,18 +6,22 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('meters', '0003_add_reading_fields'),
+        ("meters", "0003_add_reading_fields"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='meterreading',
-            name='reading',
-            field=models.DecimalField(decimal_places=1, help_text='Decimal value for this meter reading.', max_digits=255),
+            model_name="meterreading",
+            name="reading",
+            field=models.DecimalField(
+                decimal_places=1,
+                help_text="Decimal value for this meter reading.",
+                max_digits=255,
+            ),
         ),
         migrations.AlterField(
-            model_name='meterreading',
-            name='reading_datetime',
-            field=models.DateTimeField(help_text='Time this reading was taken at.'),
+            model_name="meterreading",
+            name="reading_datetime",
+            field=models.DateTimeField(help_text="Time this reading was taken at."),
         ),
     ]
