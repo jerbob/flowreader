@@ -20,6 +20,7 @@ class ImportFlowFileTestCase(TestCase):
         """Set up paths to flow files for testing."""
         self.valid_flow_file = str(FILES_DIR / "DTC5259515123502080915D0010.uff")
         self.invalid_flow_file = str(FILES_DIR / "INVALID.uff")
+        self.nonexistent_flow_file = "NONEXISTENT.uff"
 
     def import_files(self, *files: str) -> Tuple[str, str]:
         """Call the import_flow_file management command, and return output."""
@@ -37,3 +38,9 @@ class ImportFlowFileTestCase(TestCase):
         with pytest.raises(CommandError):
             _, stderr = self.import_files(self.invalid_flow_file)
             self.assertIn("Invalid flow file entry was provided", stderr)
+
+    def test_import_nonexistent_flow_file(self) -> None:
+        """Test that nonexistent flow files raise the relevant CommandError."""
+        with pytest.raises(CommandError):
+            _, stderr = self.import_files(self.nonexistent_flow_file)
+            self.assertIn("File {self.nonexistent_flow_file} does not exist.", stderr)
